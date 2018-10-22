@@ -1,26 +1,28 @@
-package org.gluu.super_gluu.app.fragments.KeysFragment;
+package org.gluu.super_gluu.app.fragment;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import org.gluu.super_gluu.app.GluuMainActivity;
-import org.gluu.super_gluu.app.customGluuAlertView.CustomGluuAlert;
+import org.gluu.super_gluu.app.NotificationType;
+import org.gluu.super_gluu.app.activities.MainNavDrawerActivity;
+import org.gluu.super_gluu.app.base.ToolbarFragment;
+import org.gluu.super_gluu.app.customview.CustomAlert;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 import org.gluu.super_gluu.util.Utils;
 
@@ -31,11 +33,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import SuperGluu.app.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by nazaryavornytskyy on 3/1/16.
  */
-public class KeyHandleInfoFragment extends Fragment implements View.OnClickListener{
+public class KeyHandleInfoFragment extends ToolbarFragment {
 
     final SimpleDateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
     final SimpleDateFormat userDateTimeFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
@@ -45,6 +49,9 @@ public class KeyHandleInfoFragment extends Fragment implements View.OnClickListe
     private OnDeleteKeyHandleListener mDeleteListener;
 
     private Activity mActivity;
+
+    @BindView(R.id.nav_drawer_toolbar)
+    Toolbar toolbar;
 
     private BroadcastReceiver mDeleteReceiver = new BroadcastReceiver() {
         @Override
@@ -85,29 +92,12 @@ public class KeyHandleInfoFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_keyhandle_info, container, false);
-        updateKeyHandleDetails(rootView);
 
-        View actionBarView = (View) rootView.findViewById(R.id.actionBarView);
-        actionBarView.findViewById(R.id.actionbar_icon).setVisibility(View.GONE);
-        TextView title = (TextView) actionBarView.findViewById(R.id.actionbar_textview);
-        title.setVisibility(View.VISIBLE);
-        title.setText("KEY INFORMATION");
-        LinearLayout leftButton = (LinearLayout) actionBarView.findViewById(R.id.action_left_button);
-        leftButton.setVisibility(View.VISIBLE);
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-        Button rightButton = (Button) actionBarView.findViewById(R.id.action_right_button);
-        rightButton.setVisibility(View.VISIBLE);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAlertView();
-            }
-        });
+        ButterKnife.bind(this, rootView);
+        setHasOptionsMenu(true);
+        setDefaultToolbar(toolbar, getString(R.string.key_details), true);
+
+        updateKeyHandleDetails(rootView);
 
         return rootView;
     }
@@ -129,16 +119,29 @@ public class KeyHandleInfoFragment extends Fragment implements View.OnClickListe
         LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mDeleteReceiver);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_key_detail, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.delete_action:
+                showAlertView();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void updateKeyHandleDetails(View view) {
-        TextView keyHandle_Title = ((TextView) view.findViewById(R.id.textView5));
-        TextView keyHandle_user_nameTitle = ((TextView) view.findViewById(R.id.keyHandle_user_name_label));
-        TextView keyHandle_user_name = ((TextView) view.findViewById(R.id.keyHandle_user_name_label_value));
+        TextView keyHandle_user_name = view.findViewById(R.id.keyHandle_user_name_label_value);
         keyHandle_user_name.setText(tokenEntry.getUserName());
-        TextView keyHandle_created = (TextView) view.findViewById(R.id.keyHandle_created_value);
-        TextView keyHandle_createdTitle = (TextView) view.findViewById(R.id.keyHandle_created);
+        TextView keyHandle_created = view.findViewById(R.id.keyHandle_created_value);
         setupPairingDateByFormat(keyHandle_created);
-        TextView keyHandle_issuer = ((TextView) view.findViewById(R.id.keyHandle_issuer_value));
-        TextView keyHandle_issuerTitle = ((TextView) view.findViewById(R.id.keyHandle_issuer_label));
+        TextView keyHandle_issuer = view.findViewById(R.id.keyHandle_issuer_value);
         try {
             URI uri = new URI(tokenEntry.getIssuer());
             String path = uri.getHost();
@@ -150,34 +153,12 @@ public class KeyHandleInfoFragment extends Fragment implements View.OnClickListe
 
         String keyStr = Utils.encodeHexString(tokenEntry.getKeyHandle());
         String keyHandleString = keyStr.substring(0, 6) + "..." + keyStr.substring(keyStr.length()-6);
-        TextView keyHandle_id = ((TextView) view.findViewById(R.id.keyHandle_id));
-        TextView keyHandle_idTitle = ((TextView) view.findViewById(R.id.keyHandle_label));
+        TextView keyHandle_id = view.findViewById(R.id.keyHandle_id);
         keyHandle_id.setText(keyHandleString);
-        //Setup fonts
-        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "ProximaNova-Semibold.otf");
-        Typeface faceLight = Typeface.createFromAsset(getActivity().getAssets(), "ProximaNova-Regular.otf");
-        keyHandle_Title.setTypeface(face);
-        keyHandle_user_name.setTypeface(faceLight);
-        keyHandle_user_nameTitle.setTypeface(faceLight);
-        keyHandle_created.setTypeface(faceLight);
-        keyHandle_createdTitle.setTypeface(faceLight);
-        keyHandle_issuer.setTypeface(faceLight);
-        keyHandle_issuerTitle.setTypeface(faceLight);
-        keyHandle_id.setTypeface(faceLight);
-        keyHandle_idTitle.setTypeface(faceLight);
-    }
-
-    @Override
-    public void onClick(View v) {
-//        if(v.getId() == R.id.delete_button){
-//            showAlertView();
-//        } else {
-//            getFragmentManager().popBackStack();
-//        }
     }
 
     void showAlertView(){
-        GluuMainActivity.GluuAlertCallback listener = new GluuMainActivity.GluuAlertCallback(){
+        MainNavDrawerActivity.GluuAlertCallback listener = new MainNavDrawerActivity.GluuAlertCallback(){
             @Override
             public void onPositiveButton() {
                 mDeleteListener.onDeleteKeyHandle(tokenEntry);
@@ -190,13 +171,14 @@ public class KeyHandleInfoFragment extends Fragment implements View.OnClickListe
                 //Skip here
             }
         };
-        CustomGluuAlert gluuAlert = new CustomGluuAlert(mActivity);
-        gluuAlert.setMessage(mActivity.getApplicationContext().getString(R.string.approve_delete));
-        gluuAlert.setSub_title(mActivity.getApplicationContext().getString(R.string.delete_key_sub_title));
-        gluuAlert.setYesTitle(mActivity.getApplicationContext().getString(R.string.yes));
-        gluuAlert.setNoTitle(mActivity.getApplicationContext().getString(R.string.no));
-        gluuAlert.setmListener(listener);
-        gluuAlert.show();
+        CustomAlert customAlert = new CustomAlert(mActivity);
+        customAlert.setHeader(getString(R.string.approve_delete));
+        customAlert.setMessage(getString(R.string.delete_key_sub_title));
+        customAlert.setPositiveText(getString(R.string.yes));
+        customAlert.setNegativeText(getString(R.string.no));
+        customAlert.setType(NotificationType.DELETE_KEY);
+        customAlert.setListener(listener);
+        customAlert.show();
     }
 
     void setupPairingDateByFormat(TextView textView){

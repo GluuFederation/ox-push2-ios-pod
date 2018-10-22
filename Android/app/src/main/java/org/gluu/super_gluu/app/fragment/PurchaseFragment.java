@@ -1,4 +1,4 @@
-package org.gluu.super_gluu.app.fragments.Purchase;
+package org.gluu.super_gluu.app.fragment;
 
 import android.content.Intent;
 import android.graphics.Typeface;

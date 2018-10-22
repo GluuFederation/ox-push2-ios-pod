@@ -4,7 +4,7 @@
  *  Copyright (c) 2014, Gluu
  */
 
-package org.gluu.super_gluu.app.fragments.KeysFragment;
+package org.gluu.super_gluu.app.fragment;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.gluu.super_gluu.app.fragments.KeysFragment.KeyFragmentListFragment;
+import org.gluu.super_gluu.app.fragment.KeyFragmentListFragment;
 import org.gluu.super_gluu.app.model.KeyContent.KeyItem;
 import org.gluu.super_gluu.u2f.v2.model.TokenEntry;
 
@@ -56,7 +56,7 @@ public class KeyRecyclerViewAdapter extends ArrayAdapter {
         }
         TokenEntry token = (TokenEntry) mValues.get(position);
         if (token != null) {
-            TextView contentView = (TextView) view.findViewById(R.id.content);
+            TextView contentView = (TextView) view.findViewById(R.id.content_text_view);
 
             if (contentView != null) {
                 String deviceName = android.os.Build.MODEL;
