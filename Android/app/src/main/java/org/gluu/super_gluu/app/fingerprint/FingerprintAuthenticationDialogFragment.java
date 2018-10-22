@@ -19,11 +19,14 @@ package org.gluu.super_gluu.app.fingerprint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +39,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.gluu.super_gluu.app.activities.MainActivity;
+import org.gluu.super_gluu.app.fragment.SecureEntryFragment;
 import org.gluu.super_gluu.app.services.FingerPrintManager;
+import org.gluu.super_gluu.app.settings.Settings;
 
 import SuperGluu.app.R;
 
@@ -45,7 +49,7 @@ import SuperGluu.app.R;
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
  * authentication if fingerprint is not available.
  */
-public class FingerprintAuthenticationDialogFragment extends DialogFragment
+public class FingerprintAuthenticationDialogFragment extends android.support.v4.app.DialogFragment
         implements TextView.OnEditorActionListener, FingerprintUiHelper.Callback {
 
     private Button mCancelButton;
@@ -84,24 +88,20 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         getDialog().setTitle(getString(R.string.sign_in));
         View v = inflater.inflate(R.layout.fingerprint_dialog_container, container, false);
         mCancelButton = (Button) v.findViewById(R.id.cancel_button);
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
+        mCancelButton.setOnClickListener(view -> {
+            dismiss();
+
+            navigateToSecureEntryScreen();
         });
-        mCancelButton.setVisibility(View.GONE);
+        mCancelButton.setVisibility(View.VISIBLE);
 
         mSecondDialogButton = (Button) v.findViewById(R.id.second_dialog_button);
         mSecondDialogButton.setVisibility(View.GONE);
-        mSecondDialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mStage == Stage.FINGERPRINT) {
-                    goToBackup();
-                } else {
-                    verifyPassword();
-                }
+        mSecondDialogButton.setOnClickListener(view -> {
+            if (mStage == Stage.FINGERPRINT) {
+                goToBackup();
+            } else {
+                verifyPassword();
             }
         });
         mFingerprintContent = v.findViewById(R.id.fingerprint_container);
@@ -126,6 +126,19 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
             goToBackup();
         }
         return v;
+    }
+
+    private void navigateToSecureEntryScreen() {
+        boolean showPinCode = Settings.getPinCodeEnabled(mActivity.getBaseContext());
+        boolean showFingerprint = Settings.getFingerprintEnabled(mActivity.getBaseContext());
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        SecureEntryFragment secureEntryFragment = SecureEntryFragment.newInstance(showPinCode, showFingerprint);
+        fragmentManager
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragment_container, secureEntryFragment)
+                .commit();
     }
 
     @Override
@@ -172,7 +185,9 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         mStage = Stage.FINGERPRINT;//PASSWORD;
         updateStage();
         mStatusLabel.setText("Too many attempts, try again around 1 minute");
-        mStatusLabel.setTextColor(getResources().getColor(R.color.redColor));
+        if(isAdded() && !isDetached() && getResources() != null) {
+            mStatusLabel.setTextColor(getResources().getColor(R.color.redColor));
+        }
 //        mPassword.requestFocus();
 
         // Show the keyboard.

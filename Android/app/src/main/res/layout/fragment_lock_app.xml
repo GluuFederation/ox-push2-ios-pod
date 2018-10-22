@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/whiteColor"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -20,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/timer_view"
-        android:background="@drawable/rounded_green_shape"
+        android:background="@drawable/rounded_primary_color_shape"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp">
 

@@ -1,343 +1,222 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/grayColorLight"
+    android:background="@color/default_screen_gray"
     android:orientation="vertical">
 
+    <!-- Default toolbar -->
+
     <include
-        android:id="@+id/actionBarView"
-        android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        layout="@layout/custom_action_bar" />
-
-    <RelativeLayout
-        android:id="@+id/topRelativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        layout="@layout/toolbar_nav_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/timer_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/timer_view"
-            android:gravity="center"
-            android:text="@string/timer"
-            android:textSize="15sp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="27dp"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/greenColor" />
-
-        <LinearLayout
-            android:id="@+id/timer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/transparent"
-            android:orientation="vertical">
-
-            <!--<TextView-->
-            <!--android:id="@+id/timer_textView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:text="@string/timer"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="#FFFFFF" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/secondsLeftTextView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:text="@string/seconds_left"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:textColor="#FFFFFF" />-->
-            <com.dinuscxj.progressbar.CircleProgressBar
-                android:id="@+id/line_progress"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:draw_progress_text="false"
-                app:line_count="30"
-                app:line_width="3dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                app:progress_end_color="@color/greenColor"
-                app:progress_shader="sweep"
-                app:progress_start_color="@color/greenColor"
-                app:progress_stroke_cap="round"
-                app:progress_stroke_width="3dp"
-                app:progress_text_color="@color/greenColor"
-                app:style="solid_line" />
-        </LinearLayout>
-
-    </RelativeLayout>
+    <!-- Timer view used on accept/deny screen -->
 
     <TextView
-        android:id="@+id/title_textView"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/timer_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/topRelativeLayout"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/to_continue"
-        android:textColor="@color/blackColor"
-        android:textSize="22dp"/>
+        android:textSize="16sp"
+        android:textColor="@color/whiteColor" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ScrollView01"
+    <!-- Scroll view for main content layout -->
+
+    <ScrollView
+        android:id="@+id/main_content_scroll_view"
+        android:layout_below="@+id/nav_drawer_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_textView"
-        android:background="@drawable/rounded_row"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:fillViewport="true">
+        android:layout_above="@+id/action_button_group">
 
-        <!--android:layout_above="@+id/action_button_group"-->
-
-        <RelativeLayout
-            android:id="@+id/mainRelativeLayout"
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:background="@drawable/top_bottom_grey_border"
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <ImageView
+                android:id="@+id/main_image_view"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/application_text_view"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/dark_grey"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/url_text_view"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View style="@style/DetailBorder"
+                android:layout_marginTop="32dp"/>
+
+            <RelativeLayout style="@style/DetailTextContainer">
+
+                <ImageView style="@style/DetailIconImageView"
+                    android:id="@+id/username_icon_image_view"
+                    android:src="@drawable/username_detail_icon" />
+
+                <View style="@style/DetailCenterView"
+                    android:id="@+id/username_center"/>
+
+                <TextView style="@style/DetailTextView"
+                    android:id="@+id/username_text_value"
+                    android:layout_toEndOf="@+id/username_center"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <View style="@style/DetailBorder"/>
+
+            <RelativeLayout style="@style/DetailTextContainer">
+
+                <ImageView style="@style/DetailIconImageView"
+                    android:id="@+id/location_icon_image_view"
+                    android:src="@drawable/location_detail_icon" />
+
+                <View style="@style/DetailCenterView"
+                    android:id="@+id/location_center"/>
+
+                <LinearLayout
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView style="@style/DetailTextView"
+                        android:id="@+id/location_ip_text_value"
+                        android:layout_gravity="end" />
+
+                    <TextView style="@style/DetailTextView"
+                        android:id="@+id/location_address_text_value"
+                        android:textColor="@color/light_grey_text"
+                        android:layout_gravity="end" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View style="@style/DetailBorder"/>
+
+
+            <RelativeLayout style="@style/DetailTextContainer">
+
+                <ImageView style="@style/DetailIconImageView"
+                    android:id="@+id/time_icon_image_view"
+                    android:src="@drawable/time_detail_icon" />
+
+                <View style="@style/DetailCenterView"
+                    android:id="@+id/time_center"/>
+
+                <LinearLayout
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView style="@style/DetailTextView"
+                        android:id="@+id/hour_minute_time_text_value"
+                        android:layout_gravity="end" />
+
+                    <TextView style="@style/DetailTextView"
+                        android:id="@+id/date_time_text_value"
+                        android:layout_gravity="end"
+                        android:textColor="@color/light_grey_text" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View style="@style/DetailBorder"/>
+
+
+            <RelativeLayout style="@style/DetailTextContainer">
+
+                <ImageView style="@style/DetailIconImageView"
+                    android:id="@+id/event_icon_image_view"
+                    android:src="@drawable/enroll_detail_icon" />
+
+                <View style="@style/DetailCenterView"
+                    android:id="@+id/event_center"/>
+
+                <TextView style="@style/DetailTextView"
+                    android:id="@+id/event_text_value"
+                    android:layout_toEndOf="@+id/event_center"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/default_screen_gray"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="false"
-                android:layout_marginTop="10dp">
+                android:layout_height="18dp"/>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/table_cell_text">
-
-                    <ImageView
-                        android:id="@+id/logo_imageView"
-                        android:layout_width="20dp"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/gluu_icon" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/text_application_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_application"
-                            android:textColor="@color/blackColor"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/text_application_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:text="http://ce-release.gluu.com"
-                            android:textColor="@color/greenColor"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/table_cell_text">
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="25dp"
-                        android:layout_height="22dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/user_icon" />
-
-                    <TextView
-                        android:id="@+id/text_user_name_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:enabled="true"
-                        android:text="@string/label_user_name"
-                        android:textColor="@color/blackColor"
-                        android:textSize="15sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/table_cell_text">
-
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="20dp"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/location_icon" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/location_ip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:enabled="true"
-                            android:text="10.106.128.3"
-                            android:textColor="@color/blackColor"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/location_address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:text="Texas, AX"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/table_cell_text">
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="20dp"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/time_icon" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/text_application_created_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12:00:01 AM"
-                            android:textColor="@color/blackColor"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/text_created_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:text="Jan 1, 2016"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="30dp"
-                    android:padding="@dimen/table_cell_text">
-
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/type_icon" />
-
-                    <TextView
-                        android:id="@+id/text_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:enabled="true"
-                        android:text="type"
-                        android:textColor="@color/blackColor"
-                        android:textSize="15sp" />
-                </TableRow>
-
-            </TableLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
+
+    <!-- Approve/Deny layout -->
 
     <LinearLayout
         android:id="@+id/action_button_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="false"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_approve"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.15"
-            android:background="@color/greenColor"
-            android:drawableTop="@drawable/approve_icon"
-            android:gravity="center"
-            android:paddingBottom="15dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="15dp"
-            android:text="@string/button_approve"
-            android:textSize="22dp"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+        <LinearLayout  style="@style/AcceptDenyLinearLayout"
+            android:id="@+id/approve_layout"
+            android:background="@color/acceptGreen">
 
-        <Button
-            android:id="@+id/button_deny"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.24"
-            android:background="#ff0000"
-            android:drawableTop="@drawable/deny_icon"
-            android:gravity="center"
-            android:paddingBottom="15dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="15dp"
-            android:text="@string/button_decline"
-            android:textSize="22dp"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+            <ImageView style="@style/AcceptDenyImageView"
+                android:scaleX="0.825"
+                android:scaleY="0.825"
+                android:src="@drawable/accept_checkmark"/>
+
+            <TextView style="@style/AcceptDenyTextView"
+                android:text="@string/approve" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/AcceptDenyLinearLayout"
+            android:id="@+id/deny_layout"
+            android:background="@color/redColor">
+
+            <ImageView style="@style/AcceptDenyImageView"
+                android:scaleX="0.73"
+                android:scaleY="0.73"
+                android:src="@drawable/deny_x" />
+
+            <TextView style="@style/AcceptDenyTextView"
+                android:text="@string/deny"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

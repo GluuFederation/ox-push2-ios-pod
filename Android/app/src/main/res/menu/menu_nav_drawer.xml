@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/history">
+
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/nav_logs"
+                    android:icon="@drawable/icon_logs"
+                    android:title="@string/logs" />
+                <item
+                    android:id="@+id/nav_keys"
+                    android:icon="@drawable/icon_keys"
+                    android:title="@string/keys" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/settings">
+
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/nav_pin_code"
+                    android:icon="@drawable/icon_pin_code"
+                    android:title="@string/pin_code" />
+                <item
+                    android:id="@+id/nav_touch_id"
+                    android:icon="@drawable/icon_touch_id"
+                    android:title="@string/fingerprint" />
+                <item
+                    android:id="@+id/nav_ssl"
+                    android:icon="@drawable/icon_trust_all"
+                    android:title="@string/trust_all_ssl" />
+            </group>
+
+        </menu>
+    </item>
+
+    <item android:title="@string/help">
+
+        <menu>
+
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/nav_user_guide"
+                    android:title="@string/user_guide" />
+                <item
+                    android:id="@+id/nav_privacy_policy"
+                    android:title="@string/privacy_policy" />
+            </group>
+
+        </menu>
+    </item>
+
+    <group>
+        <item
+            android:id="@+id/nav_version"
+            android:title="@string/versionNumber"/>
+    </group>
+
+</menu>

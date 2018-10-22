@@ -1,65 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:passcodeView="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/darker_gray">
+    android:background="@color/pinCodeGray">
+
 
     <RelativeLayout
-        android:orientation="horizontal"
-        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/pinCodeGray">
+
+        <include
+            android:layout_alignParentTop="true"
+            layout="@layout/toolbar_nav_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@+id/nav_drawer_toolbar"
+            android:id="@+id/enter_passcode_text_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UnknownIdInLayout" />
+
+        <org.gluu.super_gluu.util.PinEntryEditText
+            android:layout_below="@+id/enter_passcode_text_view"
+            android:id="@+id/pin_code_edit_text"
+            android:layout_width="240dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:digits="1234567890"
+            android:inputType="number"
+            android:cursorVisible="false"
+            android:maxLength="4"
+            app:pinLineColors="@android:color/transparent"
+            android:textIsSelectable="false"
+            app:pinAnimationType="none"
+            android:textSize="32sp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
+            app:pinRepeatedHint="\u2014"
+            app:pinCharacterMask="\u25CF"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/pin_code_title"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="left"
-            android:layout_marginTop="10dp" />
+            android:visibility="invisible"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/you_have_5_attempts_left"
+            android:id="@+id/attemptsLabel"
+            android:layout_marginTop="6dp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="12dp"
+            android:textSize="16sp"
+            android:layout_below="@+id/pin_code_edit_text"
+            android:layout_centerHorizontal="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/close"
-            android:id="@+id/close_button"
-            android:layout_alignTop="@+id/pin_code_title"
-            android:layout_alignRight="@+id/pin_code_title"
-            android:layout_alignEnd="@+id/pin_code_title"
-            android:layout_gravity="right"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="247dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp" />
     </RelativeLayout>
 
-    <com.mhk.android.passcodeview.PasscodeView
-        android:id="@+id/pin_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        passcodeView:numDigits="4"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/topLayout"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="You have 5 attempts left"
-        android:id="@+id/attemptsLabel"
-        android:textColor="@color/greenColor"
-        android:layout_below="@+id/pin_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
-</RelativeLayout>
+</ScrollView>

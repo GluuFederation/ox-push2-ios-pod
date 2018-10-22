@@ -1,67 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grayColorLight"
-    android:clipChildren="false"
-    android:orientation="vertical">
-
-    <include
-        android:id="@+id/actionBarSettings"
-        android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        layout="@layout/custom_action_bar" />
-
-    <TextView
-        android:id="@+id/availableKeys_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/available_keys"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/blackColor"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/keys_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/grayColor"
-        android:text="@string/text_keys"
-        android:textSize="14dp" />
-
-    <RelativeLayout
-        android:id="@+id/keyMainView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+    android:background="@color/default_screen_gray"
+    android:clipChildren="false">
 
     <ListView
-        android:id="@+id/keyHandleListView"
+        android:layout_below="@+id/nav_drawer_toolbar"
+        android:id="@+id/keys_list_view"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@android:color/white"
         android:divider="@color/grayColorLight"
-        android:dividerHeight="3px"
-        android:scrollbars="none" />
+        android:dividerHeight="1dp"
+        android:scrollbars="none"
+        tools:ignore="UnknownIdInLayout" />
 
-    </RelativeLayout>
+    <include
+        layout="@layout/toolbar_nav_drawer"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/empty_keyList"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/empty_keys_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textColor="@color/dark_grey"
+        android:layout_below="@+id/keys_list_view"
+        android:layout_marginTop="36dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
         android:text="@string/noKeys" />
 
-</LinearLayout>
+</RelativeLayout>

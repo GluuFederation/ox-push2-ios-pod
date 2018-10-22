@@ -15,8 +15,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.gluu.super_gluu.app.services.SuperGluuFirebaseInstanceIDService;
+import org.gluu.super_gluu.app.services.AppFirebaseInstanceIDService;
+import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.model.OxPush2Request;
+import org.gluu.super_gluu.store.AndroidKeyDataStore;
 import org.gluu.super_gluu.u2f.v2.cert.KeyPairGeneratorImpl;
 import org.gluu.super_gluu.u2f.v2.codec.RawMessageCodec;
 import org.gluu.super_gluu.u2f.v2.codec.RawMessageCodecImpl;
@@ -31,14 +33,12 @@ import org.gluu.super_gluu.u2f.v2.model.TokenResponse;
 import org.gluu.super_gluu.u2f.v2.store.DataStore;
 import org.gluu.super_gluu.u2f.v2.user.UserPresenceVerifierImpl;
 import org.gluu.super_gluu.util.CertUtils;
-import org.gluu.super_gluu.device.DeviceUuidManager;
 import org.gluu.super_gluu.util.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.security.PrivateKey;
@@ -102,7 +102,7 @@ public class SoftwareDevice {
                 new UserPresenceVerifierImpl());
     }
 
-    public TokenResponse enroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny) throws JSONException, IOException, U2FException {
+    public TokenResponse enroll(String jsonRequest, OxPush2Request oxPush2Request, Boolean isDeny) throws JSONException, U2FException {
         JSONObject request = (JSONObject) new JSONTokener(jsonRequest).nextValue();
 
         if (request.has("registerRequests")) {
@@ -121,6 +121,9 @@ public class SoftwareDevice {
         String appParam = request.getString(JSON_PROPERTY_APP_ID);
         String challenge = request.getString(JSON_PROPERTY_SERVER_CHALLENGE);
         String origin = oxPush2Request.getIssuer();
+
+        AndroidKeyDataStore androidKeyDataStore = new AndroidKeyDataStore(context);
+        boolean isDuplicate = androidKeyDataStore.doesKeyAlreadyExist(oxPush2Request);
 
         EnrollmentResponse enrollmentResponse = u2fKey.register(new EnrollmentRequest(version, appParam, challenge, oxPush2Request));
         if (BuildConfig.DEBUG) Log.d(TAG, "Enrollment response: " + enrollmentResponse);
@@ -142,7 +145,7 @@ public class SoftwareDevice {
 
         DeviceData deviceData = new DeviceData();
         deviceData.setUuid(DeviceUuidManager.getDeviceUuid(context).toString());
-        deviceData.setPushToken(new SuperGluuFirebaseInstanceIDService().getPushRegistrationId(this.context));
+        deviceData.setPushToken(new AppFirebaseInstanceIDService().getPushRegistrationId(this.context));
         deviceData.setType(deviceType);
         deviceData.setPlatform("android");
         deviceData.setName(Build.MODEL);
@@ -156,15 +159,17 @@ public class SoftwareDevice {
         response.put("clientData", Utils.base64UrlEncode(clientDataString.getBytes(Charset.forName("ASCII"))));
         response.put("deviceData", Utils.base64UrlEncode(deviceDataString.getBytes(Charset.forName("ASCII"))));
 
+
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setResponse(response.toString());
         tokenResponse.setChallenge(new String(challenge));
         tokenResponse.setKeyHandle(new String(enrollmentResponse.getKeyHandle()));
+        tokenResponse.setDuplicate(isDuplicate);
 
         return tokenResponse;
     }
 
-    public TokenResponse sign(String jsonRequest, String origin, Boolean isDeny) throws JSONException, IOException, U2FException {
+    public TokenResponse sign(String jsonRequest, String origin, Boolean isDeny) throws JSONException, U2FException {
         if (BuildConfig.DEBUG) Log.d(TAG, "Starting to process sign request: " + jsonRequest);
         JSONObject request = (JSONObject) new JSONTokener(jsonRequest).nextValue();
 

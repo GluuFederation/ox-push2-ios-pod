@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/whiteColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar_nav_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:src="@drawable/secure_entry_image"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <RelativeLayout style="@style/SecureEntryTextContainer"
+        android:id="@+id/pin_code_relative_layout">
+
+        <ImageView style="@style/SecureEntryIconImageView"
+            android:id="@+id/pin_code_image_view"
+            android:src="@drawable/icon_pin_code"/>
+
+        <TextView style="@style/SecureEntryTextView"
+            android:id="@+id/pin_code_text_view"
+            android:layout_toEndOf="@+id/pin_code_image_view"
+            android:text="@string/pin_code"/>
+
+        <ImageView style="@style/SecureEntryCaret"/>
+
+        <View style="@style/SecureEntryBorder"
+            android:layout_below="@+id/pin_code_image_view"
+            android:layout_alignStart="@+id/pin_code_text_view"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/SecureEntryTextContainer"
+        android:paddingTop="6dp"
+        android:id="@+id/fingerprint_relative_layout">
+
+        <ImageView style="@style/SecureEntryIconImageView"
+            android:id="@+id/fingerprint_image_view"
+            android:src="@drawable/icon_touch_id"/>
+
+        <TextView style="@style/SecureEntryTextView"
+            android:id="@+id/fingerprint_text_view"
+            android:layout_toEndOf="@+id/fingerprint_image_view"
+            android:text="@string/fingerprint"/>
+
+        <ImageView style="@style/SecureEntryCaret"/>
+
+        <View style="@style/SecureEntryBorder"
+            android:layout_below="@+id/fingerprint_image_view"
+            android:layout_alignStart="@+id/fingerprint_text_view"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

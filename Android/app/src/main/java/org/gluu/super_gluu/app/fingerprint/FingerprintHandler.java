@@ -5,19 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.CancellationSignal;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import org.gluu.super_gluu.app.gluuToast.GluuToast;
+import org.gluu.super_gluu.app.customview.CustomToast;
 
 import SuperGluu.app.R;
 
 /**
  * Created by nazaryavornytskyy on 3/1/17.
  */
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
     private Context context;
@@ -71,9 +74,9 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
     public void showToast(String text){
-        GluuToast gluuToast = new GluuToast(context);
+        CustomToast customToast = new CustomToast(context);
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.gluu_toast, null);
-        gluuToast.showGluuToastWithText(view, text);
+        View view = inflater.inflate(R.layout.custom_toast, null);
+        customToast.showGluuToastWithText(view, text);
     }
 }

@@ -13,20 +13,22 @@
         android:background="@drawable/rounded_row"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/pinCodeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:textSize="24dp"
+            android:fontFamily="@font/proxima_nova_regular"
             android:textColor="@color/blackColor"
             android:layout_marginTop="40dp"
             android:text="@string/pin_code_enable_title"
             android:textAlignment="center" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/pinSubCodeTitle"
+            android:fontFamily="@font/proxima_nova_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -48,7 +50,7 @@
         android:layout_marginLeft="20dp"
         android:gravity="center">
 
-            <Button
+        <android.support.v7.widget.AppCompatButton
                 android:id="@+id/yes_button_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,17 +58,19 @@
                 android:textAllCaps="false"
                 android:layout_marginRight="10dp"
                 android:textSize="17dp"
+                android:fontFamily="@font/proxima_nova_regular"
                 android:background="@drawable/rounded_button"
                 android:text="@string/yes"
                 android:textColor="#ffffff" />
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/no_button_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:textAllCaps="false"
                 android:textSize="17dp"
+                android:fontFamily="@font/proxima_nova_regular"
                 android:background="@drawable/rounded_button_red_fill"
                 android:text="@string/no"
                 android:textColor="#ffffff"

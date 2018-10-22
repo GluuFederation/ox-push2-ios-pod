@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chauthai.swipereveallayout.SwipeRevealLayout
+<com.daimajia.swipe.SwipeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="10dp"
-    app:dragEdge="right"
-    app:mode="normal">
+    android:layout_height="wrap_content">
 
-    <FrameLayout
+    <!-- Swipe to delete layout -->
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:id="@+id/swipe_menu_layout"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-        android:background="@android:color/transparent"
-        android:weightSum="1">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@android:color/transparent">
 
         <RelativeLayout
             android:id="@+id/swipe_show_button"
@@ -25,7 +26,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/view_action"
+                android:src="@drawable/ic_visibility"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
@@ -34,13 +35,12 @@
             android:id="@+id/swipe_rename_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="#1ab26b"
-            android:layout_marginLeft="60dp">
+            android:background="#1ab26b">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rename_action"
+                android:src="@drawable/ic_edit"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
@@ -49,62 +49,76 @@
             android:id="@+id/swipe_delete_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="#f6000c"
-            android:layout_marginLeft="120dp">
+            android:background="#f6000c">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/delete_action"
+                android:src="@drawable/ic_delete"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
-    </FrameLayout>
+    </LinearLayout>
 
-    <FrameLayout
+    <!-- Main Layout for Key Item -->
+
+    <RelativeLayout
+        android:id="@+id/key_main_view"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:orientation="horizontal"
+        android:background="@drawable/white_background_with_ripple">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/key_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/key_list_item_icon" />
+
         <LinearLayout
-            android:id="@+id/key_main_view"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:background="@color/whiteColor">
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/key_imageView"
+            android:layout_toStartOf="@+id/right_caret"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="7dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/key_imageView"
-                android:layout_width="25dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/gluu_icon" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/contentKey"
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                tools:text="keyhandleName"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/contentKey"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="keyhandleName"
-                    android:textColor="@color/blackColor"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/created_dateKey"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="createdDate"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/created_dateKey"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/light_grey_text"
+                tools:text="createdDate"
+                android:textSize="14sp" />
         </LinearLayout>
-    </FrameLayout>
 
-</com.chauthai.swipereveallayout.SwipeRevealLayout>
+        <ImageView
+            android:id="@+id/right_caret"
+            android:src="@drawable/right_caret"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

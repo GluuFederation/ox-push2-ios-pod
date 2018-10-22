@@ -10,7 +10,7 @@ import android.util.Log;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.gluu.super_gluu.app.GluuMainActivity;
+import org.gluu.super_gluu.app.GluuApplication;
 import org.gluu.super_gluu.u2f.v2.cert.KeyPairGenerator;
 import org.gluu.super_gluu.u2f.v2.codec.RawMessageCodec;
 import org.gluu.super_gluu.u2f.v2.exception.U2FException;
@@ -81,11 +81,10 @@ public class U2FKeyImpl implements U2FKey {
         tokenEntry.setUserName(enrollmentRequest.getOxPush2Request().getUserName());
         tokenEntry.setAuthenticationMode(enrollmentRequest.getOxPush2Request().getMethod());
         tokenEntry.setKeyHandle(keyHandle);
-        String serverName = tokenEntry.getIssuer();
-        String keyHandleTitle = serverName;
+        String keyHandleTitle = tokenEntry.getIssuer();;
         tokenEntry.setKeyName(keyHandleTitle);
         final boolean oneStep = Utils.isEmpty(enrollmentRequest.getOxPush2Request().getUserName());
-        String authenticationType = GluuMainActivity.getResourceString(oneStep ? R.string.one_step : R.string.two_step);
+        String authenticationType = GluuApplication.get().getString(oneStep ? R.string.one_step : R.string.two_step);
         tokenEntry.setAuthenticationType(authenticationType);
         dataStore.storeTokenEntry(tokenEntry);
 

@@ -11,9 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import SuperGluu.app.BuildConfig;
-
-import org.gluu.super_gluu.app.activities.GluuApplication;
+import org.gluu.super_gluu.app.GluuApplication;
 import org.gluu.super_gluu.util.CertUtils;
 import org.gluu.super_gluu.util.Utils;
 
@@ -29,6 +27,7 @@ import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.Map;
@@ -41,6 +40,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+
+import SuperGluu.app.BuildConfig;
 
 /**
  * Network communication service
@@ -69,7 +70,7 @@ public class CommunicationService {
             connection.setRequestMethod("GET");
 
             //Get Response
-            Log.v(TAG,"Response code is:"+connection.getResponseCode());
+            Log.v(TAG,"Response code is: " + connection.getResponseCode());
             InputStream is = connection.getInputStream();
 
             return readStream(is);
@@ -177,29 +178,46 @@ public class CommunicationService {
     }
     public static void initTrustAllTrustManager() {
         // Create a trust manager that does not validate certificate chains
-        TrustManager[] trustAllCerts = new TrustManager[]{
+        TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
+
+
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // not implemented
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws java.security.cert.CertificateException {
+                        // not implemented
+                    }
+
+                    @Override
                     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                         return null;
                     }
 
-                    public void checkClientTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
                 }
         };
 
-        // Install the all-trusting trust manager
         try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-        } catch (Exception ex) {
-            Log.e(TAG, "Failed to install Trust All TrustManager", ex);
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+
+            });
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 

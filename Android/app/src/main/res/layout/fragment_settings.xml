@@ -1,102 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/settings_parent_id"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grayColorLight"
-        android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_parent_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/grayColorLight"
+    android:orientation="vertical">
 
     <include
-        android:id="@+id/actionBarView"
-        android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        layout="@layout/custom_action_bar" />
+        layout="@layout/toolbar_nav_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:id="@+id/relativeLayout">
-
-            <TextView
-                android:id="@+id/textViewSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="21dp"
-                android:textSize="19dp"
-                android:text="@string/trust_all_certificate"
-                android:textColor="@color/blackColor" />
-
-            <Switch
-                android:id="@+id/switch_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textViewSettings"
-                android:layout_alignBottom="@+id/textViewSettings"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:checked="false"
-                android:thumbTint="@color/greenColor"
-                android:trackTint="@color/greenColor" />
-
-        </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textViewSubTitle"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="19dp"
-        android:text="@string/warning_trust_all_certificate"
-        android:textColor="@color/grayColor"
-        android:layout_below="@+id/relativeLayout" />
+        android:layout_marginTop="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/top_bottom_grey_border"
+        android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/view_ad_free"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="5dp"
-        android:layout_weight="0.06"
-        android:background="@drawable/black_border"
-        android:elevation="20dp"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/settings_image_view"
+            android:src="@drawable/icon_trust_all"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/settings_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="@string/ad_free_text"
-            android:textSize="15dp" />
+            android:layout_toRightOf="@+id/settings_image_view"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="@string/pin_code_settings"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_centerVertical="true"
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/button_ad_free"
+        <Switch
+            android:id="@+id/setting_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/rounded_fio_shape"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:textAllCaps="false"
-            android:text="@string/ad_free_title"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="18dp"
+            android:thumbTint="@color/colorPrimary"
+            android:trackTint="@color/colorPrimary" />
 
     </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/settings_subtitle_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:text="@string/pin_code_text"
+        android:textColor="@color/dark_grey" />
+
+</LinearLayout>
