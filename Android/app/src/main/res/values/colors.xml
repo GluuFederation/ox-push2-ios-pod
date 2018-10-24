@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="greenColor">#1ab26b</color>
+    <color name="colorPrimary">#1ab26b</color>
+    <color name="colorPrimaryDark">#00813f</color>
+    <color name="colorAccent">#1ab26b</color>
+    <color name="acceptGreen">#1ab26b</color>
     <color name="grayColorLight">#efeff4</color>
     <color name="grayColorTinLight">#dddddd</color>
     <color name="grayColor">#919191</color>
@@ -12,8 +12,22 @@
     <color name="redColor">#FF0000</color>
     <color name="blackColor">#555555</color>
     <color name="navyBlueColor">#143642</color>
+    <color name="indigo">#112932</color>
+    <color name="primaryBlue">#3F51B5</color>
+    <color name="darkBlue">#303F9F</color>
+    <color name="pinCodeGray">#DFDFDF</color>
+    <color name="default_screen_gray">#F5F5F5</color>
+    <color name="homeScreenTextGray">#5E5E5E</color>
+    <color name="dark_grey">#5E5E5E</color>
+    <color name="border_grey">#C4C4C4</color>
+    <color name="light_grey_text">#C9C9C9</color>
+
+
+
     <!--For fingerprint dialog-->
     <color name="warning_color">#f4511e</color>
     <color name="hint_color">#42000000</color>
     <color name="success_color">#009688</color>
+
+    <color name="pin_normal">#6B767E</color>
 </resources>

@@ -1,0 +1,148 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <!-- Mimicking the toolbar so we can dead center the icon -->
+
+    <RelativeLayout
+        android:id="@+id/mimic_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/custom_toolbar_icon" />
+
+    </RelativeLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/remove_ad_card_view"
+        android:layout_below="@+id/mimic_toolbar">
+
+        <ImageView
+            android:id="@+id/qr_code_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qr_home_screen"
+            app:layout_constraintBottom_toTopOf="@+id/welcome_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/welcome_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/button_scan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qr_code_image_view"
+            app:layout_constraintVertical_bias="0.100000024">
+
+            <TextView
+                android:id="@+id/welcome_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:gravity="center"
+                android:text="@string/welcome"
+                android:textColor="@color/homeScreenTextGray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/scan_text"
+                android:textColor="@color/homeScreenTextGray"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:background="@drawable/very_rounded_button"
+            android:includeFontPadding="false"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/button_scan_text"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_layout" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/remove_ad_card_view"
+        android:layout_above="@+id/adView"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="12dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/button_remove_ads"
+            android:textColor="@color/whiteColor"
+            android:background="@drawable/rounded_indigo_button"
+            android:textAllCaps="false"
+            android:text="@string/remove_ads"
+            android:includeFontPadding="false"
+            android:layout_marginRight="48dp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:layout_marginLeft="48dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="36dp" />
+
+    </android.support.v7.widget.CardView>
+
+    <!-- The ad view -->
+    <com.google.android.gms.ads.AdView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        app:adSize="SMART_BANNER"/>
+
+</RelativeLayout>

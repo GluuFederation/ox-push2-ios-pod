@@ -33,6 +33,8 @@ public interface DataStore {
 
     void deleteTokenEntry(byte[] keyHandle);
 
+    boolean doesKeyAlreadyExist(OxPush2Request oxPush2Request);
+
     //Methods for logs (save, get, delete, ....)
 
     void saveLog(LogInfo logText);

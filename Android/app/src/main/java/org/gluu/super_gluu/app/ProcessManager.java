@@ -167,14 +167,9 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
     }
 
     private void setFinalStatus(int statusId) {
-        String message = activity.getApplicationContext().getString(statusId);
-        setFinalStatus(message);
-    }
-
-    private void setFinalStatus(String message) {
         Intent intent = new Intent("ox_request-precess-event");
         // You can also include some extra data.
-        intent.putExtra("message", message);
+        intent.putExtra("message", statusId);
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
     }
 
@@ -350,6 +345,7 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
                                 final U2fOperationResult u2fOperationResult = new Gson().fromJson(resultJsonResponse, U2fOperationResult.class);
                                 if (BuildConfig.DEBUG) Log.i(TAG, "Get U2f operation result: " + u2fOperationResult);
 
+
                                 handleResult(isDeny, tokenResponse, u2fOperationResult);
                             } catch (Exception ex) {
                                 Log.e(TAG, "Failed to process resultJsonResponse: " + resultJsonResponse, ex);
@@ -385,17 +381,22 @@ public class ProcessManager {//extends Fragment implements View.OnClickListener 
             log.setCreatedDate(String.valueOf(System.currentTimeMillis()));//oxPush2Request.getCreated());
             log.setMethod(oxPush2Request.getMethod());
             Boolean isEnroll = oxPush2Request.getMethod().equalsIgnoreCase("enroll");
-            if (isDeny){
+            if (isDeny) {
                 setFinalStatus(R.string.deny_result_success);
                 LogState state = isEnroll ? LogState.ENROL_DECLINED : LogState.LOGIN_DECLINED;
                 log.setLogState(state);
             } else {
-                setFinalStatus(isEnroll ? R.string.enrol_result_success : R.string.auth_result_success);
+                if(isEnroll && tokenResponse.isDuplicate()) {
+                    setFinalStatus(R.string.duplicate_enrollment_title);
+                    return;
+                }
+
+                setFinalStatus(isEnroll ? R.string.enroll_result_success : R.string.auth_result_success);
                 LogState state = isEnroll ? LogState.ENROL_SUCCESS : LogState.LOGIN_SUCCESS;
                 log.setLogState(state);
             }
             dataStore.saveLog(log);
-//            ((TextView) getView().findViewById(R.id.status_text)).setText(getString(R.string.auth_result_success) + ". Server: " + u2fMetaData.getIssuer());
+
         } else {
             LogInfo log = new LogInfo();
             log.setIssuer(oxPush2Request.getIssuer());

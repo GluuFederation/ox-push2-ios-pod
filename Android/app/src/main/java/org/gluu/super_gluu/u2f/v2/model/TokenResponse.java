@@ -16,14 +16,16 @@ public class TokenResponse {
     private String response;
     private String challenge;
     private String keyHandle;
+    private boolean isDuplicate;
 
     public TokenResponse() {
     }
 
-    public TokenResponse(String response, String challenge, String keyHandle) {
+    public TokenResponse(String response, String challenge, String keyHandle, boolean isDuplicate) {
         this.response = response;
         this.challenge = challenge;
         this.keyHandle = keyHandle;
+        this.isDuplicate = isDuplicate;
     }
 
     public String getResponse() {
@@ -48,5 +50,13 @@ public class TokenResponse {
 
     public void setKeyHandle(String keyHandle) {
         this.keyHandle = keyHandle;
+    }
+
+    public boolean isDuplicate() {
+        return isDuplicate;
+    }
+
+    public void setDuplicate(boolean duplicate) {
+        isDuplicate = duplicate;
     }
 }

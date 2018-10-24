@@ -1,15 +1,28 @@
-.gradle
-build
-.idea
-.idea/workspace.xml
-.idea/libraries
-captures
-.DS_Store
-local.properties
-*.iml
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+#android studio settings
+*.iml
+.gradle
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Files for Firebase/Push Notifications
+app/google-services.json
